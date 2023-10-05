@@ -1,4 +1,4 @@
-package com.trinity.growworks.ui.theme
+package com.trinity.growworks.presentation.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

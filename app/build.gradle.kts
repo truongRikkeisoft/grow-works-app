@@ -1,16 +1,20 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    kotlin("kapt")
+    id("com.google.dagger.hilt.android")
+    id("kotlin-parcelize")
+    id("io.realm.kotlin")
 }
 
 android {
     namespace = "com.trinity.growworks"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.trinity.growworks"
         minSdk = 26
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -21,17 +25,24 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField("String", "BASE_URL", "\"https://rickandmortyapi.com/api/\"")
+            applicationIdSuffix = ".debug"
+            isDebuggable = true
+        }
+
         release {
+            buildConfigField("String", "BASE_URL", "\"https://rickandmortyapi.com/api/\"")
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
     buildFeatures {
         compose = true
@@ -48,7 +59,7 @@ android {
 
 dependencies {
 
-    implementation("androidx.core:core-ktx:1.9.0")
+    implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
     implementation("androidx.activity:activity-compose:1.7.2")
     implementation(platform("androidx.compose:compose-bom:2023.03.00"))
@@ -63,4 +74,51 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+
+    /**
+     * Navigation component
+     */
+    implementation("androidx.navigation:navigation-compose:2.7.3")
+
+    /**
+     * Kotlin-coroutine
+     * */
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1")
+
+    /**
+     * View model
+     * */
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
+
+    /**
+     * Dagger Hilt
+     * */
+    implementation("com.google.dagger:hilt-android:2.47")
+    kapt("com.google.dagger:hilt-android-compiler:2.44")
+    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
+
+    /**
+     * Retrofit
+     * */
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.okhttp3:okhttp:4.10.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
+
+    implementation("com.github.chuckerteam.chucker:library:3.5.2")
+    implementation("androidx.paging:paging-compose:3.3.0-alpha02")
+
+    /**
+     * realm data base
+     */
+    implementation("io.realm.kotlin:library-base:1.11.0")
+    implementation("io.realm.kotlin:library-sync:1.11.0")
+
+    /**
+     * Lottie animation
+     * */
+    implementation("com.airbnb.android:lottie-compose:6.0.0")
+
+    implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
 }
